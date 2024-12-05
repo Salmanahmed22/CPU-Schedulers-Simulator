@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f49c3d0f-f6eb-46dd-b9bb-b224007ac7a9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityScheduling/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PriorityScheduling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PriorityScheduling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Process.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Process.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,20 +26,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/studying/operating system/CPU-Schedulers-Simulator/PriorityScheduling&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/College/Third Level/First Term/Operating System/Assignment 3/CPU-Schedulers-Simulator",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="CPU-Schedulers-Simulator" />
@@ -63,8 +59,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -83,6 +79,8 @@
       <workItem from="1733314225250" duration="362000" />
       <workItem from="1733314677758" duration="21000" />
       <workItem from="1733314777748" duration="32000" />
+      <workItem from="1733352477972" duration="288000" />
+      <workItem from="1733402445011" duration="4336000" />
     </task>
     <servers />
   </component>

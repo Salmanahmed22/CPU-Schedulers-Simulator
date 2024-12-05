@@ -1,31 +1,84 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class PriorityScheduling {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    static class ScheduleEntry {
+        String processName;
+        int arrivalTime;
+        int burstTime;
+        int priority;
+        int startTime;
+        int endTime;
+        boolean contextSwitch;
 
-        // input number of processes
-        System.out.print("Enter the number of processes: ");
-        int numProcesses = scanner.nextInt();
+        ScheduleEntry(String processName, int arrivalTime, int burstTime, int priority, int startTime, int endTime, boolean contextSwitch) {
+            this.processName = processName;
+            this.arrivalTime = arrivalTime;
+            this.burstTime = burstTime;
+            this.priority = priority;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.contextSwitch = contextSwitch;
+        }
+    }
+
+    public void schedule(Process[] processes, int contextSwitching) {
 
         PriorityQueue<Process> processPriorityQueue = new PriorityQueue<>(Comparator.comparingInt(p -> p.priority));
 
-        // input process details
-        for (int i = 1; i <= numProcesses; i++) {
-            System.out.print("Enter Process Name ");
-            String ProcessName = scanner.next();
+        ArrayList<ScheduleEntry> schedule = new ArrayList<>();
 
-            System.out.println("Enter details for Process " + i + ":");
-            System.out.print("Burst Time: ");
-            int burstTime = scanner.nextInt();
-            System.out.print("Priority (lower value = higher priority): ");
-            int priority = scanner.nextInt();
-//            processPriorityQueue.add(new Process(i, burstTime, priority));
+
+        for (Process process : processes) {
+            processPriorityQueue.add(process);
         }
+
+        System.out.println("\nScheduling Processes based on Priority:");
+        int currentTime = 0;
+
+        while (!processPriorityQueue.isEmpty()) {
+            Process currentProcess = processPriorityQueue.poll();
+
+            // Handle context switching if needed
+            if (!schedule.isEmpty()) {
+                currentTime += contextSwitching;
+                schedule.add(new ScheduleEntry(
+                        "Context Switch", 0, 0, 0, currentTime - contextSwitching, currentTime, true));
+            }
+
+            // Execute the process
+            int startTime = Math.max(currentTime, currentProcess.arrivalTime);
+            int endTime = startTime + currentProcess.burstTime;
+            currentTime = endTime;
+
+            schedule.add(new ScheduleEntry(
+                    currentProcess.processName, currentProcess.arrivalTime, currentProcess.burstTime,
+                    currentProcess.priority, startTime, endTime, false));
+        }
+
+        // Print the schedule table
+        printScheduleTable(schedule);
+    }
+
+    private void printScheduleTable(ArrayList<ScheduleEntry> schedule) {
+        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
+        System.out.println("| Process | Arrival Time | Burst Time | Priority | Start Time | End Time | Context Switching |");
+        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
+
+        for (ScheduleEntry entry : schedule) {
+            System.out.printf("| %-7s | %-12s | %-10s | %-8s | %-10s | %-8s | %-17s |\n",
+                    entry.contextSwitch ? "N/A" : entry.processName,
+                    entry.contextSwitch ? "N/A" : entry.arrivalTime,
+                    entry.contextSwitch ? "N/A" : entry.burstTime,
+                    entry.contextSwitch ? "N/A" : entry.priority,
+                    entry.startTime, entry.endTime,
+                    entry.contextSwitch ? "Yes" : "No");
+        }
+
+        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
     }
 }
 
