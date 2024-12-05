@@ -9,6 +9,8 @@ public class Process{
     int priority;
     int waitingTime = 0;
     int turnArroundTime = 0;
+    int completionTime = 0;
+    int remainingTime = 0;
 
     Process(String processName,String color ,int processId , int arrivalTime ,int burstTime,int priority){
         this.processName = processName;
@@ -24,6 +26,17 @@ public class Process{
         this.processName = processName;
         this.color = color;
         this.burstTime = burstTime;
+    }
+
+    //constructor for SRTF
+    Process(int pid, int arrivalTime, int burstTime) {
+        this.processId = pid;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.remainingTime = burstTime;
+        this.waitingTime = 0;
+        this.turnArroundTime = 0;
+        this.completionTime = 0;
     }
 
 }
