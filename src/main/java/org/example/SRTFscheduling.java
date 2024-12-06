@@ -64,8 +64,8 @@ public class SRTFscheduling {
                 if (currentProcess.remainingTime == 0) {
                     completed++;
                     currentProcess.completionTime = currentTime;
-                    currentProcess.turnArroundTime = currentProcess.completionTime - currentProcess.arrivalTime;
-                    currentProcess.waitingTime = currentProcess.turnArroundTime - currentProcess.burstTime;
+                    currentProcess.turnAroundTime = currentProcess.completionTime - currentProcess.arrivalTime;
+                    currentProcess.waitingTime = currentProcess.turnAroundTime - currentProcess.burstTime;
                 } else {
                     readyQueue.add(currentProcess); // Re-add to the queue
                 }
@@ -92,9 +92,9 @@ public class SRTFscheduling {
 
         System.out.println("\nProcess\tArrival\tBurst\tCompletion\tWaiting\tTurnaround");
         for (Process p : processes) {
-            System.out.println(p.processId + "\t" + p.arrivalTime + "\t" + p.burstTime + "\t" + p.completionTime + "\t" + p.waitingTime + "\t" + p.turnArroundTime);
+            System.out.println(p.processId + "\t" + p.arrivalTime + "\t" + p.burstTime + "\t" + p.completionTime + "\t" + p.waitingTime + "\t" + p.turnAroundTime);
             totalWaitingTime += p.waitingTime;
-            totalTurnaroundTime += p.turnArroundTime;
+            totalTurnaroundTime += p.turnAroundTime;
         }
 
         System.out.println("\nAverage Waiting Time: " + (totalWaitingTime / processes.size()));

@@ -44,7 +44,7 @@ public class SJFscheduling {
 
     public void calcTurnArroundTime() {
         for (Process process : processList) {
-            process.turnArroundTime = process.waitingTime + process.burstTime;
+            process.turnAroundTime = process.waitingTime + process.burstTime;
         }
         calcAvgTurnArroundTime();
     }
@@ -52,7 +52,7 @@ public class SJFscheduling {
     public void calcAvgTurnArroundTime() {
         int totalWaitTime = 0;
         for (Process process : processList) {
-            totalWaitTime += process.turnArroundTime;
+            totalWaitTime += process.turnAroundTime;
         }
         avgTurnArroundTime = totalWaitTime / processList.size();
     }
@@ -63,7 +63,7 @@ public class SJFscheduling {
         System.out.println("Time    process     waiting time     turn around time");
         for (Process process : processList) {
             int startTime = process.waitingTime , endTime = startTime + process.burstTime;
-            System.out.println(startTime + "-" + endTime +"\t\t\t" + process.processName + "\t\t\t" + process.waitingTime+ "\t\t\t" + process.turnArroundTime);
+            System.out.println(startTime + "-" + endTime +"\t\t\t" + process.processName + "\t\t\t" + process.waitingTime+ "\t\t\t" + process.turnAroundTime);
         }
 
         System.out.println("Average waiting time: " + avgWaitTime);

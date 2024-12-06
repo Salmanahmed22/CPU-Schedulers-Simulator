@@ -8,7 +8,7 @@ public class Process{
     int burstTime;
     int priority;
     int waitingTime = 0;
-    int turnArroundTime = 0;
+    int turnAroundTime = 0;
     int completionTime = 0;
     int remainingTime = 0;
 
@@ -36,7 +36,7 @@ public class Process{
         this.burstTime = burstTime;
         this.remainingTime = burstTime;
         this.waitingTime = 0;
-        this.turnArroundTime = 0;
+        this.turnAroundTime = 0;
         this.completionTime = 0;
     }
 
