@@ -1,24 +1,38 @@
 package org.example;
-import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 public class PriorityScheduling {
     public void schedule(Process[] processes, int contextSwitching) {
         int n = processes.length;
         int currentTime = 0;
 
-        // Sort processes by priority, then by arrival time
-        Arrays.sort(processes, (p1, p2) -> {
-            if (p1.priority == p2.priority) {
-                return Integer.compare(p1.arrivalTime, p2.arrivalTime);
+        // first one will always be first
+        int temp = processes[0].priority;
+        processes[0].priority = Integer.MIN_VALUE;
+
+        // Priority queue by priority or arrival
+        PriorityQueue<Process> sortedProcesses = new PriorityQueue<>(n, new Comparator<Process>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                // Sort by priority first, then by arrival time
+                if (p1.priority == p2.priority) {
+                    return Integer.compare(p1.arrivalTime, p2.arrivalTime);
+                }
+                return Integer.compare(p1.priority, p2.priority); // Smaller priority comes first
             }
-            return Integer.compare(p1.priority, p2.priority);
         });
 
-        // Process the queue in order
-        for (int i = 0; i < n; i++) {
-            Process process = processes[i];
+        // Add all processes to the priority queue
+        for (Process process : processes) {
+            sortedProcesses.add(process);
+        }
 
-            // If current time is less than the process's arrival time, wait
+        // Process the queue in order
+        while (!sortedProcesses.isEmpty()) {
+            Process process = sortedProcesses.poll(); // Fetch the process with the highest priority
+
+            // If the current time is less than the process's arrival time, wait
             if (currentTime < process.arrivalTime) {
                 currentTime = process.arrivalTime;
             }
@@ -27,22 +41,33 @@ public class PriorityScheduling {
             process.waitingTime = currentTime - process.arrivalTime;
             process.completionTime = currentTime + process.burstTime;
             process.turnAroundTime = process.completionTime - process.arrivalTime;
+
             currentTime += process.burstTime + contextSwitching;
         }
 
+        //restore value of first priority
+        processes[0].priority = temp;
+
+        display(processes,contextSwitching);
+
+    }
+    public void display(Process[] processes,int contextSwitching){
+        int n = processes.length;
         // Print table header
-        System.out.println("------------------------------------------------------------------------------------------");
-        System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-12s | %-12s | %-10s |\n",
-                "Process Name", "Arrival Time", "Burst Time", "Priority", "Waiting Time", "Turnaround", "Color");
-        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
+                "Process Name", "Arrival Time", "Burst Time", "Priority", "Completion Time", "Waiting Time", "Turnaround",
+                "Context Switching", "Color");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
 
         // Print process details in table format
         for (Process process : processes) {
-            System.out.printf("| %-12s | %-13d | %-10d | %-8d | %-12d | %-12d | %-10s |\n",
+            System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
                     process.processName, process.arrivalTime, process.burstTime, process.priority,
-                    process.waitingTime, process.turnAroundTime, process.color);
+                    process.completionTime, process.waitingTime, process.turnAroundTime, contextSwitching, process.color);
         }
-        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+
 
         // Calculate and print average waiting time and turnaround time
         double totalWaitingTime = 0, totalTurnaroundTime = 0;
@@ -57,3 +82,6 @@ public class PriorityScheduling {
         System.out.printf("Average Turnaround Time: %.2f\n", averageTurnaroundTime);
     }
 }
+
+
+
