@@ -48,10 +48,17 @@ public class Main{
             sjfscheduling.calcWaitingTime();
             sjfscheduling.calcTurnArroundTime();
             sjfscheduling.displayProcesses();
+
+            new SJFSchedulerGUI(
+                    sjfscheduling.getProcessList(),
+                    sjfscheduling.getAvgWaitTime(),
+                    sjfscheduling.getAvgTurnAroundTime()
+            );
         }else if (choice == 3) {
             //ramez & shafee2
         }else if (choice == 4) {
             //FCAI
         }
     }
+
 }

@@ -8,7 +8,7 @@ public class SJFscheduling {
 
     private List<Process> processList;
     private int avgWaitTime;
-    private int avgTurnArroundTime;
+    private int avgTurnAroundTime;
 
 
     public SJFscheduling(Process [] process) {
@@ -17,6 +17,19 @@ public class SJFscheduling {
             processList.add(p);
         }
     }
+
+    public List<Process> getProcessList() {
+        return processList;
+    }
+
+    public int getAvgWaitTime() {
+        return avgWaitTime;
+    }
+
+    public int getAvgTurnAroundTime() {
+        return avgTurnAroundTime;
+    }
+
 
     public void addProcess(Process process) {
         processList.add(process);
@@ -54,7 +67,7 @@ public class SJFscheduling {
         for (Process process : processList) {
             totalWaitTime += process.turnAroundTime;
         }
-        avgTurnArroundTime = totalWaitTime / processList.size();
+        avgTurnAroundTime = totalWaitTime / processList.size();
     }
 
     public void displayProcesses() {
@@ -67,7 +80,7 @@ public class SJFscheduling {
         }
 
         System.out.println("Average waiting time: " + avgWaitTime);
-        System.out.println("Average turn around time: " + avgTurnArroundTime);
+        System.out.println("Average turn around time: " + avgTurnAroundTime);
     }
 
 }
