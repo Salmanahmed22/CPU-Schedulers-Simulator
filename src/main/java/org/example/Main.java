@@ -41,7 +41,7 @@ public class Main{
         }
 
         if (choice == 1) {
-
+            //omarrr
         } else if (choice == 2) {
             SJFscheduling sjfscheduling = new SJFscheduling(processes);
             sjfscheduling.sortProcesses();
@@ -49,9 +49,9 @@ public class Main{
             sjfscheduling.calcTurnArroundTime();
             sjfscheduling.displayProcesses();
         }else if (choice == 3) {
-
+            //ramez & shafee2
         }else if (choice == 4) {
-
+            //FCAI
         }
     }
 }
