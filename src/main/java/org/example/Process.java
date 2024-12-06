@@ -12,6 +12,7 @@ public class Process{
     int completionTime = 0;
     int remainingTime = 0;
 
+    //constructor for Priority
     Process(String processName,String color ,int processId , int arrivalTime ,int burstTime,int priority){
         this.processName = processName;
         this.color = color;
