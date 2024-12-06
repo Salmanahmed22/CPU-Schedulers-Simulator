@@ -41,7 +41,8 @@ public class Main{
         }
 
         if (choice == 1) {
-            //omarrr
+            PriorityScheduling priorityScheduling = new PriorityScheduling();
+            priorityScheduling.schedule(processes,contextSwitching);
         } else if (choice == 2) {
             SJFscheduling sjfscheduling = new SJFscheduling(processes);
             sjfscheduling.sortProcesses();
