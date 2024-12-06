@@ -11,16 +11,12 @@ public class PriorityScheduling {
         int temp = processes[0].priority;
         processes[0].priority = Integer.MIN_VALUE;
 
-        // Priority queue by priority or arrival
-        PriorityQueue<Process> sortedProcesses = new PriorityQueue<>(n, new Comparator<Process>() {
-            @Override
-            public int compare(Process p1, Process p2) {
-                // Sort by priority first, then by arrival time
-                if (p1.priority == p2.priority) {
-                    return Integer.compare(p1.arrivalTime, p2.arrivalTime);
-                }
-                return Integer.compare(p1.priority, p2.priority); // Smaller priority comes first
+        // priority queue by priority or arrival
+        PriorityQueue<Process> sortedProcesses = new PriorityQueue<>(n, (p1, p2) -> {
+            if (p1.priority == p2.priority) {
+                return Integer.compare(p1.arrivalTime, p2.arrivalTime);
             }
+            return Integer.compare(p1.priority, p2.priority); // smaller priority comes first
         });
 
         // Add all processes to the priority queue
