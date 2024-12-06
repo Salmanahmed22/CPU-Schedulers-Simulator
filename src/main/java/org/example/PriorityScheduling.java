@@ -1,6 +1,6 @@
 package org.example;
 import java.util.PriorityQueue;
-import java.util.Comparator;
+
 
 public class PriorityScheduling {
     public void schedule(Process[] processes, int contextSwitching) {
@@ -24,16 +24,18 @@ public class PriorityScheduling {
             sortedProcesses.add(process);
         }
 
-        // Process the queue in order
+        // process the queue in order
         while (!sortedProcesses.isEmpty()) {
-            Process process = sortedProcesses.poll(); // Fetch the process with the highest priority
+            Process process = sortedProcesses.poll();
 
-            // If the current time is less than the process's arrival time, wait
+            //like p1 arrival is 0 ,3  and p2 arrival is 5 so it has to wait 2 mins before been executed
+            // if the current time is less than the process's arrival time, wait
             if (currentTime < process.arrivalTime) {
                 currentTime = process.arrivalTime;
             }
 
-            // Calculate the process metrics
+            //completion from 0 till process right edge , wait is how much process waited since arrival
+            //turnarround is the whole process time
             process.waitingTime = currentTime - process.arrivalTime;
             process.completionTime = currentTime + process.burstTime;
             process.turnAroundTime = process.completionTime - process.arrivalTime;
@@ -49,14 +51,14 @@ public class PriorityScheduling {
     }
     public void display(Process[] processes,int contextSwitching){
         int n = processes.length;
-        // Print table header
+        // print table header
         System.out.println("----------------------------------------------------------------------------------------------------------");
         System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
                 "Process Name", "Arrival Time", "Burst Time", "Priority", "Completion Time", "Waiting Time", "Turnaround",
                 "Context Switching", "Color");
         System.out.println("----------------------------------------------------------------------------------------------------------");
 
-        // Print process details in table format
+        // print process details in table format
         for (Process process : processes) {
             System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
                     process.processName, process.arrivalTime, process.burstTime, process.priority,
@@ -65,7 +67,7 @@ public class PriorityScheduling {
         System.out.println("----------------------------------------------------------------------------------------------------------");
 
 
-        // Calculate and print average waiting time and turnaround time
+        // print average waiting time and turnaround time
         double totalWaitingTime = 0, totalTurnaroundTime = 0;
         for (Process process : processes) {
             totalWaitingTime += process.waitingTime;
