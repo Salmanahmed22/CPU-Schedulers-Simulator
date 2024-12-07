@@ -56,7 +56,7 @@ public class Main{
                     sjfscheduling.getAvgTurnAroundTime()
             );
         }else if (choice == 3) {
-            //SRTF
+            SRTFscheduling.simulateSRTF(processes, contextSwitching);
         }else if (choice == 4) {
             //FCAI
         }
