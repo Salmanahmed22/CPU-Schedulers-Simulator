@@ -17,7 +17,7 @@ public class SJFSchedulerGUI extends JFrame {
 
         // Set up the frame
         setTitle("SJF Scheduler GUI");
-        setSize(800, 600);
+        setSize(500, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -44,7 +44,9 @@ public class SJFSchedulerGUI extends JFrame {
                 int y = 50;
                 int height = 40;
                 for (Process process : processes) {
-                    g.setColor(Color.decode(process.color)); // Use the process's color
+                    String hexColor = Colors.getHex(process.color);
+
+                    g.setColor(Color.decode(hexColor)); // Use the process's color
                     int width = process.burstTime * 10; // Scale burst time for visualization
                     g.fillRect(x, y, width, height);
                     g.setColor(Color.BLACK);
@@ -90,10 +92,10 @@ public class SJFSchedulerGUI extends JFrame {
     public static void main(String[] args) {
         // Mock data for testing
         Process[] mockProcesses = {
-                new Process("P1", "#FF0000", 1, 0, 3, 1),
-                new Process("P2", "#00FF00", 2, 1, 5, 2),
-                new Process("P3", "#0000FF", 3, 2, 2, 3),
-                new Process("P4", "#FFFF00", 4, 3, 1, 4),
+                new Process("P1", "red", 1, 0, 3, 1),
+                new Process("P2", "green", 2, 1, 5, 2),
+                new Process("P3", "blue", 3, 2, 2, 3),
+                new Process("P4", "magenta", 4, 3, 1, 4),
         };
         SJFscheduling sjfscheduling = new SJFscheduling(mockProcesses);
         sjfscheduling.sortProcesses();

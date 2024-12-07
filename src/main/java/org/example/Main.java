@@ -20,15 +20,16 @@ public class Main{
         System.out.println("Enter Round Robin Time Quantum: ");
         int RRQuantum = scanner.nextInt();
 
-
         Process [] processes = new Process[numberOfProcesses];
         // Input the process details
         for (int i = 0; i < numberOfProcesses; i++) {
             System.out.println("Enter details for Process " + (i + 1));
             System.out.print("Enter Process Name: ");
             String processName = scanner.next();
-            System.out.print("Enter Process Color (for graphical representation): ");
+            System.out.print("Choose Process Color (for graphical representation): ");
+            System.out.print("-red\n-blue\n-green\n-yellow\n-orange\n-purple\nblack\nmagenta\ncyan\n");
             String color = scanner.next();
+            color.toLowerCase();
             System.out.print("Enter Process Arrival Time: ");
             int arrivalTime = scanner.nextInt();
             System.out.print("Enter Process Burst Time: ");
