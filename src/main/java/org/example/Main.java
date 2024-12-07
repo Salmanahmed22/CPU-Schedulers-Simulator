@@ -28,7 +28,7 @@ public class Main{
             System.out.print("Enter Process Name: ");
             String processName = scanner.next();
             System.out.print("Choose Process Color (for graphical representation): ");
-            System.out.print("-red\n-blue\n-green\n-yellow\n-orange\n-purple\nblack\nmagenta\ncyan\n");
+            System.out.print("-red\n-blue\n-green\n-yellow\n-orange\n-purple\n-black\n-magenta\n-cyan\n");
             String color = scanner.next();
             color.toLowerCase();
             System.out.print("Enter Process Arrival Time: ");
