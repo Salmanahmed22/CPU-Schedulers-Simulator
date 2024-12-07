@@ -3,13 +3,7 @@ package org.example;
 import java.util.*;
 
 public class SRTFscheduling {
-    private List<TimelineEntry> timeline = new ArrayList<>(); // Field to store the timeline
-    private Process[] processes; // Field to store processes for access after simulation
-
-    public void simulateSRTF(Process[] processes, int contextSwitchTime) {
-        // Store the processes array for retrieval
-        this.processes = processes;
-
+    public static void simulateSRTF(Process[] processes, int contextSwitchTime) {
         // Sort processes by arrival time initially
         Arrays.sort(processes, Comparator.comparingInt(p -> p.arrivalTime));
 
@@ -17,6 +11,9 @@ public class SRTFscheduling {
         int completed = 0;
         int n = processes.length;
         Process currentProcess = null;
+
+        // List to store timeline of executions
+        List<TimelineEntry> timeline = new ArrayList<>();
 
         // Priority queue to hold processes based on remaining time and arrival time
         PriorityQueue<Process> readyQueue = new PriorityQueue<>((p1, p2) -> {
@@ -68,16 +65,10 @@ public class SRTFscheduling {
                 currentTime++;
             }
         }
-    }
 
-    // Getter for timeline
-    public List<TimelineEntry> getTimeline() {
-        return timeline;
-    }
-
-    // Getter for processes
-    public Process[] getProcesses() {
-        return processes;
+        // Print process details and timeline
+        printProcessDetails(processes);
+        printTimeline(timeline);
     }
 
     // Timeline entry class to track execution details
@@ -95,7 +86,6 @@ public class SRTFscheduling {
         }
     }
 
-    // Helper methods for printing
     public static void printTimeline(List<TimelineEntry> timeline) {
         System.out.println("\nExecution Timeline:");
         System.out.println("Start\tEnd \tDescription");
@@ -103,7 +93,8 @@ public class SRTFscheduling {
             System.out.println(entry.startTime + "\t\t" + entry.endTime + "\t\t" + entry.description);
         }
     }
-
+    
+    // Existing methods remain the same
     public static int getAvgWaitTime(Process[] processes) {
         int totalWaitingTime = 0;
         for (Process p : processes) {
@@ -132,4 +123,5 @@ public class SRTFscheduling {
         System.out.println("\nAverage Waiting Time: " + (avgWaitingTime));
         System.out.println("Average Turnaround Time: " + (avgTurnaroundTime));
     }
+
 }

@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f49c3d0f-f6eb-46dd-b9bb-b224007ac7a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/SRTFSchedulerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PriorityScheduling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PriorityScheduling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SRTFscheduling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SRTFscheduling.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +112,7 @@
       <workItem from="1733402445011" duration="4789000" />
       <workItem from="1733485628348" duration="1249000" />
       <workItem from="1733393721430" duration="10268000" />
-      <workItem from="1733603522080" duration="299000" />
+      <workItem from="1733603522080" duration="9500000" />
     </task>
     <servers />
   </component>

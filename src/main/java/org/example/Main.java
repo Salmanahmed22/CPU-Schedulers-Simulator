@@ -1,4 +1,5 @@
 package org.example;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -57,7 +58,18 @@ public class Main{
                     sjfscheduling.getAvgTurnAroundTime()
             );
         }else if (choice == 3) {
-            SRTFscheduling.simulateSRTF(processes, contextSwitching);
+            SRTFscheduling scheduler = new SRTFscheduling();
+            scheduler.simulateSRTF(processes, contextSwitching);
+            Process[] updatedProcesses = scheduler.getProcesses();
+            SRTFscheduling.printProcessDetails(updatedProcesses);
+            List<SRTFscheduling.TimelineEntry> timeline = scheduler.getTimeline();
+            SRTFscheduling.printTimeline(timeline);
+            new SRTFSchedulerGUI(
+                    timeline,
+                    processes,
+                    scheduler.getAvgWaitTime(processes),
+                    scheduler.getAvgTurnaroundTime(processes)
+            );
         }else if (choice == 4) {
             //FCAI
         }
