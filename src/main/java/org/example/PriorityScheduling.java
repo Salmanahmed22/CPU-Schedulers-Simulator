@@ -80,6 +80,3 @@ public class PriorityScheduling {
         System.out.printf("Average Turnaround Time: %.2f\n", averageTurnaroundTime);
     }
 }
-
-
-

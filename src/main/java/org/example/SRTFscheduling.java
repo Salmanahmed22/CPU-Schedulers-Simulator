@@ -5,29 +5,10 @@ import java.util.*;
 
 public class SRTFscheduling {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the number of processes: ");
-        int n = scanner.nextInt();
-
-        List<Process> processes = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            System.out.print("Enter arrival time and burst time for process " + (i + 1) + ": ");
-            int arrivalTime = scanner.nextInt();
-            int burstTime = scanner.nextInt();
-            processes.add(new Process(i + 1, arrivalTime, burstTime));
-        }
-
-        System.out.print("Enter context switch time: ");
-        int contextSwitchTime = scanner.nextInt();
-
-        simulateSRTF(processes, contextSwitchTime);
-    }
-
-    public static void simulateSRTF(List<Process> processes, int contextSwitchTime) {
+    public static void simulateSRTF(Process[] processes, int contextSwitchTime) {
         int currentTime = 0;
         int completed = 0;
-        int n = processes.size();
+        int n = processes.length;
         boolean contextSwitching = false;
 
         // Priority queue to hold processes based on remaining time and arrival time
@@ -69,13 +50,6 @@ public class SRTFscheduling {
                 } else {
                     readyQueue.add(currentProcess); // Re-add to the queue
                 }
-
-                // Aging: Reduce remaining time slightly for processes waiting long
-                for (Process p : readyQueue) {
-                    if (p != currentProcess) {
-                        p.remainingTime = Math.max(1, p.remainingTime - 1); // Minimum remaining time is 1
-                    }
-                }
             } else {
                 // If no process is ready, increment time
                 currentTime++;
@@ -86,7 +60,7 @@ public class SRTFscheduling {
         printProcessDetails(processes);
     }
 
-    public static void printProcessDetails(List<Process> processes) {
+    public static void printProcessDetails(Process[] processes) {
         double totalWaitingTime = 0;
         double totalTurnaroundTime = 0;
 
@@ -97,7 +71,7 @@ public class SRTFscheduling {
             totalTurnaroundTime += p.turnAroundTime;
         }
 
-        System.out.println("\nAverage Waiting Time: " + (totalWaitingTime / processes.size()));
-        System.out.println("Average Turnaround Time: " + (totalTurnaroundTime / processes.size()));
+        System.out.println("\nAverage Waiting Time: " + (totalWaitingTime / processes.length));
+        System.out.println("Average Turnaround Time: " + (totalTurnaroundTime / processes.length));
     }
 }
