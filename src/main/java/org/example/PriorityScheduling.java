@@ -1,84 +1,85 @@
 package org.example;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
+
 public class PriorityScheduling {
-    static class ScheduleEntry {
-        String processName;
-        int arrivalTime;
-        int burstTime;
-        int priority;
-        int startTime;
-        int endTime;
-        boolean contextSwitch;
-
-        ScheduleEntry(String processName, int arrivalTime, int burstTime, int priority, int startTime, int endTime, boolean contextSwitch) {
-            this.processName = processName;
-            this.arrivalTime = arrivalTime;
-            this.burstTime = burstTime;
-            this.priority = priority;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.contextSwitch = contextSwitch;
-        }
-    }
-
     public void schedule(Process[] processes, int contextSwitching) {
-
-        PriorityQueue<Process> processPriorityQueue = new PriorityQueue<>(Comparator.comparingInt(p -> p.priority));
-
-        ArrayList<ScheduleEntry> schedule = new ArrayList<>();
-
-
-        for (Process process : processes) {
-            processPriorityQueue.add(process);
-        }
-
-        System.out.println("\nScheduling Processes based on Priority:");
+        int n = processes.length;
         int currentTime = 0;
 
-        while (!processPriorityQueue.isEmpty()) {
-            Process currentProcess = processPriorityQueue.poll();
+        // first one will always be first
+        int temp = processes[0].priority;
+        processes[0].priority = Integer.MIN_VALUE;
 
-            // Handle context switching if needed
-            if (!schedule.isEmpty()) {
-                currentTime += contextSwitching;
-                schedule.add(new ScheduleEntry(
-                        "Context Switch", 0, 0, 0, currentTime - contextSwitching, currentTime, true));
+        // priority queue by priority or arrival
+        PriorityQueue<Process> sortedProcesses = new PriorityQueue<>(n, (p1, p2) -> {
+            if (p1.priority == p2.priority) {
+                return Integer.compare(p1.arrivalTime, p2.arrivalTime);
+            }
+            return Integer.compare(p1.priority, p2.priority); // smaller priority comes first
+        });
+
+        // Add all processes to the priority queue
+        for (Process process : processes) {
+            sortedProcesses.add(process);
+        }
+
+        // process the queue in order
+        while (!sortedProcesses.isEmpty()) {
+            Process process = sortedProcesses.poll();
+
+            //like p1 arrival is 0 ,3  and p2 arrival is 5 so it has to wait 2 mins before been executed
+            // if the current time is less than the process's arrival time, wait
+            if (currentTime < process.arrivalTime) {
+                currentTime = process.arrivalTime;
             }
 
-            // Execute the process
-            int startTime = Math.max(currentTime, currentProcess.arrivalTime);
-            int endTime = startTime + currentProcess.burstTime;
-            currentTime = endTime;
+            //completion from 0 till process right edge , wait is how much process waited since arrival
+            //turnarround is the whole process time
+            process.waitingTime = currentTime - process.arrivalTime;
+            process.completionTime = currentTime + process.burstTime;
+            process.turnAroundTime = process.completionTime - process.arrivalTime;
 
-            schedule.add(new ScheduleEntry(
-                    currentProcess.processName, currentProcess.arrivalTime, currentProcess.burstTime,
-                    currentProcess.priority, startTime, endTime, false));
+            currentTime += process.burstTime + contextSwitching;
         }
 
-        // Print the schedule table
-        printScheduleTable(schedule);
+        //restore value of first priority
+        processes[0].priority = temp;
+
+        display(processes,contextSwitching);
+
     }
+    public void display(Process[] processes,int contextSwitching){
+        int n = processes.length;
+        // print table header
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
+                "Process Name", "Arrival Time", "Burst Time", "Priority", "Completion Time", "Waiting Time", "Turnaround",
+                "Context Switching", "Color");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
 
-    private void printScheduleTable(ArrayList<ScheduleEntry> schedule) {
-        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
-        System.out.println("| Process | Arrival Time | Burst Time | Priority | Start Time | End Time | Context Switching |");
-        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
-
-        for (ScheduleEntry entry : schedule) {
-            System.out.printf("| %-7s | %-12s | %-10s | %-8s | %-10s | %-8s | %-17s |\n",
-                    entry.contextSwitch ? "N/A" : entry.processName,
-                    entry.contextSwitch ? "N/A" : entry.arrivalTime,
-                    entry.contextSwitch ? "N/A" : entry.burstTime,
-                    entry.contextSwitch ? "N/A" : entry.priority,
-                    entry.startTime, entry.endTime,
-                    entry.contextSwitch ? "Yes" : "No");
+        // print process details in table format
+        for (Process process : processes) {
+            System.out.printf("| %-12s | %-13s | %-10s | %-8s | %-15s | %-12s | %-12s | %-15s | %-10s |\n",
+                    process.processName, process.arrivalTime, process.burstTime, process.priority,
+                    process.completionTime, process.waitingTime, process.turnAroundTime, contextSwitching, process.color);
         }
+        System.out.println("----------------------------------------------------------------------------------------------------------");
 
-        System.out.println("+---------+--------------+------------+----------+------------+----------+-------------------+");
+
+        // print average waiting time and turnaround time
+        double totalWaitingTime = 0, totalTurnaroundTime = 0;
+        for (Process process : processes) {
+            totalWaitingTime += process.waitingTime;
+            totalTurnaroundTime += process.turnAroundTime;
+        }
+        double averageWaitingTime = totalWaitingTime / n;
+        double averageTurnaroundTime = totalTurnaroundTime / n;
+
+        System.out.printf("\nAverage Waiting Time: %.2f\n", averageWaitingTime);
+        System.out.printf("Average Turnaround Time: %.2f\n", averageTurnaroundTime);
     }
 }
+
+
 
