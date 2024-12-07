@@ -1,6 +1,6 @@
 package org.example;
 
-public class Process{
+public class Process {
     String processName;
     String color;
     int processId;
@@ -10,36 +10,27 @@ public class Process{
     int waitingTime = 0;
     int turnAroundTime = 0;
     int completionTime = 0;
-    int remainingTime = 0;
+    int remainingTime;
+    int quantum;
+    double FCAIFactor;
 
-    //constructor for Priority
-    Process(String processName,String color ,int processId , int arrivalTime ,int burstTime,int priority){
+    // Constructor for FCAI Scheduling
+    Process(String processName, String color, int processId, int arrivalTime, int burstTime, int priority) {
         this.processName = processName;
         this.color = color;
         this.processId = processId;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-    }
-
-    //constructor for SJF
-    Process(String processName,String color,int burstTime){
-        this.processName = processName;
-        this.color = color;
-        this.burstTime = burstTime;
-    }
-
-    //constructor for SRTF
-    Process(int pid, int arrivalTime, int burstTime) {
-        this.processId = pid;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
         this.remainingTime = burstTime;
-        this.waitingTime = 0;
-        this.turnAroundTime = 0;
-        this.completionTime = 0;
+        this.quantum = 4; // Default quantum, can be modified dynamically
     }
 
+    public Process(int i, int arrivalTime, int burstTime) {
+    }
+
+    // Method to calculate the FCAI factor
+    public void calculateFCAIFactor(double V1, double V2) {
+        FCAIFactor = (10 - priority) + (arrivalTime / V1) + (remainingTime / V2);
+    }
 }
-
-
