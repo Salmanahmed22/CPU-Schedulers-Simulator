@@ -71,17 +71,27 @@ public class SJFscheduling {
     }
 
     public void displayProcesses() {
+        System.out.println("\n=== SJF Scheduling Results ===");
+        System.out.println("-------------------------------------------------------------");
+        System.out.printf("%-15s %-15s %-20s %-20s\n", "Time", "Process", "Waiting Time", "Turnaround Time");
+        System.out.println("-------------------------------------------------------------");
 
-        System.out.println("Using SJF scheduling technique these are the results");
-        System.out.println("Time    process     waiting time     turn around time");
         for (Process process : processList) {
-            int startTime = process.waitingTime , endTime = startTime + process.burstTime;
-            System.out.println(startTime + "-" + endTime +"\t\t\t" + process.processName + "\t\t\t" + process.waitingTime+ "\t\t\t" + process.turnAroundTime);
+            int startTime = process.waitingTime, endTime = startTime + process.burstTime;
+            System.out.printf("%-15s %-15s %-20d %-20d\n",
+                    startTime + "-" + endTime,
+                    process.processName,
+                    process.waitingTime,
+                    process.turnAroundTime);
         }
 
-        System.out.println("Average waiting time: " + avgWaitTime);
-        System.out.println("Average turn around time: " + avgTurnAroundTime);
+        System.out.println("-------------------------------------------------------------");
+        System.out.printf("%-30s: %d\n", "Average Waiting Time", (int) avgWaitTime);
+        System.out.printf("%-30s: %d\n", "Average Turnaround Time", (int) avgTurnAroundTime);
+        System.out.println("=============================================================\n");
     }
+
+
 
 }
 
