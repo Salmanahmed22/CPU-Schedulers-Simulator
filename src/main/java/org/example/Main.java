@@ -60,6 +60,6 @@ public class Main{
             FCAIScheduling fcaiScheduling = new FCAIScheduling(processes);
             fcaiScheduling.schedule();
         }
-    }
+    } 
 
 }
