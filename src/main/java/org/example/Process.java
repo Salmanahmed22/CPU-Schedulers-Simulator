@@ -26,6 +26,17 @@ public class Process {
         this.quantum = 4; // Default quantum, can be modified dynamically
     }
 
+    Process(String processName, String color, int processId, int arrivalTime, int burstTime, int priority, int quantum) {
+        this.processName = processName;
+        this.color = color;
+        this.processId = processId;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.priority = priority;
+        this.remainingTime = burstTime;
+        this.quantum = quantum;
+    }
+
     public Process(int i, int arrivalTime, int burstTime) {
     }
 
