@@ -116,8 +116,8 @@ public class PrioritySchedulingGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Mock data for testing
-        Process[] mockProcesses = {
+        // data for testing
+        Process[] guiProcesses = {
                 new Process("P1", "#FF0000", 0, 0, 4, 3),
                 new Process("P2", "#00FF00", 1, 1, 2, 2),
                 new Process("P3", "#0000FF", 2, 2, 3, 4),
@@ -128,23 +128,23 @@ public class PrioritySchedulingGUI extends JFrame {
         int contextSwitchValue = 0;
 
         PriorityScheduling priorityScheduling = new PriorityScheduling();
-        priorityScheduling.schedule(mockProcesses, contextSwitchValue);
+        priorityScheduling.schedule(guiProcesses, contextSwitchValue);
 
 
 
         double totalWaitingTime = 0, totalTurnaroundTime = 0;
-        for (Process process : mockProcesses) {
+        for (Process process : guiProcesses) {
             totalWaitingTime += process.waitingTime;
             totalTurnaroundTime += process.turnAroundTime;
         }
-        double avgWait = totalWaitingTime / mockProcesses.length;
-        double avgTurnAround = totalTurnaroundTime / mockProcesses.length;
+        double avgWait = totalWaitingTime / guiProcesses.length;
+        double avgTurnAround = totalTurnaroundTime / guiProcesses.length;
 
 
 
         // Launch the GUI
         new PrioritySchedulingGUI(
-                List.of(mockProcesses),
+                List.of(guiProcesses),
                 avgWait,
                 avgTurnAround,
                 contextSwitchValue // Pass context-switching value
