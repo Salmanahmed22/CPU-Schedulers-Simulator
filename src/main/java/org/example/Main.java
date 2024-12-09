@@ -45,7 +45,14 @@ public class Main{
 
         if (choice == 1) {
             PriorityScheduling priorityScheduling = new PriorityScheduling();
-            priorityScheduling.schedule(processes,contextSwitching);
+            priorityScheduling.schedule(processes, contextSwitching);
+
+            new PrioritySchedulerGUI(
+                    priorityScheduling.getProcessList(),
+                    priorityScheduling.getAvgWaitTime(),
+                    priorityScheduling.getAvgTurnaroundTime()
+                    ,contextSwitching
+            );
         } else if (choice == 2) {
             SJFscheduling sjfscheduling = new SJFscheduling(processes);
             sjfscheduling.sortProcesses();

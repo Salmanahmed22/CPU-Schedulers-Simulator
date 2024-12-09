@@ -1,9 +1,15 @@
 package org.example;
-import java.util.PriorityQueue;
 
+import java.util.PriorityQueue;
+import java.util.Arrays;
 
 public class PriorityScheduling {
+    private Process[] processes;
+    private double avgWaitTime;
+    private double avgTurnaroundTime;
+
     public void schedule(Process[] processes, int contextSwitching) {
+        this.processes = processes;
         int n = processes.length;
         int currentTime = 0;
 
@@ -20,9 +26,7 @@ public class PriorityScheduling {
         });
 
         // Add all processes to the priority queue
-        for (Process process : processes) {
-            sortedProcesses.add(process);
-        }
+        sortedProcesses.addAll(Arrays.asList(processes));
 
         // process the queue in order
         while (!sortedProcesses.isEmpty()) {
@@ -46,10 +50,40 @@ public class PriorityScheduling {
         //restore value of first priority
         processes[0].priority = temp;
 
-        display(processes,contextSwitching);
+        // Calculate average waiting and turnaround times
+        calculateAverages(processes);
 
+        // Display process information
+        display(processes, contextSwitching);
     }
-    public void display(Process[] processes,int contextSwitching){
+
+    private void calculateAverages(Process[] processes) {
+        int n = processes.length;
+        double totalWaitingTime = 0;
+        double totalTurnaroundTime = 0;
+
+        for (Process process : processes) {
+            totalWaitingTime += process.waitingTime;
+            totalTurnaroundTime += process.turnAroundTime;
+        }
+
+        avgWaitTime = totalWaitingTime / n;
+        avgTurnaroundTime = totalTurnaroundTime / n;
+    }
+
+    public Process[] getProcessList() {
+        return processes;
+    }
+
+    public double getAvgWaitTime() {
+        return avgWaitTime;
+    }
+
+    public double getAvgTurnaroundTime() {
+        return avgTurnaroundTime;
+    }
+
+    public void display(Process[] processes, int contextSwitching) {
         int n = processes.length;
         // print table header
         System.out.println("----------------------------------------------------------------------------------------------------------");
@@ -66,17 +100,8 @@ public class PriorityScheduling {
         }
         System.out.println("----------------------------------------------------------------------------------------------------------");
 
-
         // print average waiting time and turnaround time
-        double totalWaitingTime = 0, totalTurnaroundTime = 0;
-        for (Process process : processes) {
-            totalWaitingTime += process.waitingTime;
-            totalTurnaroundTime += process.turnAroundTime;
-        }
-        double averageWaitingTime = totalWaitingTime / n;
-        double averageTurnaroundTime = totalTurnaroundTime / n;
-
-        System.out.printf("\nAverage Waiting Time: %.2f\n", averageWaitingTime);
-        System.out.printf("Average Turnaround Time: %.2f\n", averageTurnaroundTime);
+        System.out.printf("\nAverage Waiting Time: %.2f\n", avgWaitTime);
+        System.out.printf("Average Turnaround Time: %.2f\n", avgTurnaroundTime);
     }
 }
