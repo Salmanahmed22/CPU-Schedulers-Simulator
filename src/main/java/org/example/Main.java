@@ -79,8 +79,10 @@ public class Main{
                     scheduler.getAvgTurnaroundTime(processes)
             );
         }else if (choice == 4) {
+
             FCAIScheduling fcaiScheduling = new FCAIScheduling(processes, contextSwitching);
             fcaiScheduling.schedule();
+
         }
     } 
 

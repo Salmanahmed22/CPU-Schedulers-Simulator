@@ -196,4 +196,6 @@ public class FCAIScheduling {
                     process.turnAroundTime + "\t\t" + process.waitingTime);
         }
     }
+
+
 }
