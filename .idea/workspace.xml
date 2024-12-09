@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FCAIScheduling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/FCAIScheduling.java" afterDir="false" />
     </list>
-    <list default="true" id="f49c3d0f-f6eb-46dd-b9bb-b224007ac7a9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +41,7 @@
     "Application.SRTFscheduling.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/studying/operating system/CPU-Schedulers-Simulator",
     "node.js.detected.package.eslint": "true",
