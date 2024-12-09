@@ -3,7 +3,7 @@ package org.example;
 import java.util.*;
 
 public class FCAIScheduling {
-    private Process[] processes;
+    private  Process[] processes;
     private final int contextSwitching;
     private final double V1;
     private final double V2;
@@ -237,5 +237,6 @@ public class FCAIScheduling {
         System.out.printf("Average Turnaround Time: %.2f\n", avgTurnaroundTime);
     }
 }
+
 
 

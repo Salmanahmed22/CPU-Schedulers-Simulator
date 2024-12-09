@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="f49c3d0f-f6eb-46dd-b9bb-b224007ac7a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PrioritySchedulerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PrioritySchedulerGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SJFSchedulerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SJFSchedulerGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SRTFSchedulerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SRTFSchedulerGUI.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FCAIScheduling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/FCAIScheduling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+>>>>>>> 6057943d600f920f526d28822bb0b75f85e128f1
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +48,11 @@
     &quot;Application.SRTFscheduling.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+=======
+    &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
+>>>>>>> 6057943d600f920f526d28822bb0b75f85e128f1
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/studying/operating system/CPU-Schedulers-Simulator&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -121,21 +130,22 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/SJFscheduling.java</url>
-          <line>13</line>
-          <properties class="org.example.SJFscheduling" method="&lt;init&gt;">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
+          <line>15</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
+<<<<<<< HEAD
+=======
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/FCAIScheduling.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+>>>>>>> 6057943d600f920f526d28822bb0b75f85e128f1
       </breakpoints>
     </breakpoint-manager>
   </component>
