@@ -41,7 +41,7 @@ public class FCAIScheduling {
         PriorityQueue<Process> processPQ = new PriorityQueue<>(comparator);
         // Detailed Timeline Header
         System.out.println("Detailed Execution Timeline:");
-        System.out.println("Time\tProcess\tRemaining Burst Time\tUpdated Quantum\tPriority\tFCAI Factor\tAction Details");
+        System.out.println("Time\t\t\tProcess\t\t\t\tRemaining Burst Time\t\t\t\tUpdated Quantum\t\t\t\tPriority\t\t\t\tFCAI Factor");
 
         while (true) {
             // Add processes to the ready queue based on arrival time
@@ -80,7 +80,7 @@ public class FCAIScheduling {
             }
 
             // Sort readyQueue by FCAI factor (descending)
-            readyQueue.sort(Comparator.comparingDouble((Process p) -> p.FCAIFactor).reversed());
+//            readyQueue.sort(Comparator.comparingDouble((Process p) -> p.FCAIFactor).reversed());
 
 
 
@@ -98,6 +98,26 @@ public class FCAIScheduling {
             int remQuantum = currentProcess.quantum - executionTime;
             int startTime = currentTime;
             currentTime += executionTime;
+
+            // TODO: Update PQ,Q
+
+            Process[] newProcesses3 = new Process[processes.length];
+            int index3 = 0; // Keeps track of the position in the new array
+
+            for (Process process : processes) {
+                if (process.arrivalTime <= currentTime && process.remainingTime > 0 && !readyQueue.contains(process)) {
+                    readyQueue.add(process);
+                    processPQ.add(process);
+                    // Skip adding this process to the new array
+                } else {
+                    // Add the process to the new array if it's not being removed
+                    newProcesses3[index3++] = process;
+                }
+            }
+
+            // Trim the new array to the correct size
+            processes = Arrays.copyOf(newProcesses3, index3);
+
 //          if it still the lowest FCAI factor continue to execute it till the Quantum is over or till the next FCAI factor is smaller
             if(processPQ.peek().FCAIFactor == currentProcess.FCAIFactor){
                 while(remQuantum > 0){
@@ -118,11 +138,19 @@ public class FCAIScheduling {
                     // Trim the new array to the correct size
                     processes = Arrays.copyOf(newProcesses2, index2);
 
-                    if(processPQ.peek().FCAIFactor == currentProcess.FCAIFactor) {
+                    assert processPQ.peek() != null;
+                    int x = processPQ.peek().FCAIFactor;
+
+                    int y = currentProcess.FCAIFactor;
+
+                    if(x == y) {
                         currentTime++;
                         currentProcess.remainingTime--;
                         remQuantum--;
                         executionTime++;
+                    }
+                    else{
+                        break;
                     }
                 }
             }
@@ -133,34 +161,27 @@ public class FCAIScheduling {
             } else {
                 currentProcess.quantum += remQuantum ;
             }
+            int tempFcaiFactor = currentProcess.FCAIFactor;
             if(currentProcess.remainingTime > 0){
                 currentProcess.calculateFCAIFactor(V1, V2);
                 readyQueue.add(currentProcess);
             }
 
             // Print detailed information for the current time slice
-            System.out.printf("%-15s%-25s%-30d%-20s%-15d%-15d%-25s\n",
+            System.out.printf("%-15s%-25s%-30d%-20s%-15d%-15s\n",
                     startTime + "-" + (startTime + executionTime), // Current time range
                     currentProcess.processName,                  // Process name
                     currentProcess.remainingTime,               // Remaining Burst Time
                     tempQuantum + " → " + currentProcess.quantum,            // Simulate quantum change
-                    currentProcess.priority,                    // Priority
-                    currentProcess.FCAIFactor,                  // FCAI Factor
-                    "Executing");                               // Action Details
+                    currentProcess.priority,
+                    tempFcaiFactor + " → " +// Priority
+                    currentProcess.FCAIFactor);                  // FCAI Factor
 
-
-            // Print the current action details after execution
-//            if (currentProcess.remainingTime > 0) {
-//                System.out.printf("Post Execution Update: %s has remaining burst time: %d\n",
-//                        currentProcess.processName, currentProcess.remainingTime);
-//            } else {
-//                System.out.printf("Post Execution Update: %s completed at time %d\n",
-//                        currentProcess.processName, currentTime);
-//            }
+            // Check if all processes are completed
         }
 
         // Print the final results after all processes are completed
-        printResults();
+//        printResults();
     }
 
     private void printResults() {

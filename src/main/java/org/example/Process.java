@@ -42,7 +42,7 @@ public class Process {
 
     // Method to calculate the FCAI factor and ceil it
     public void calculateFCAIFactor(double V1, double V2) {
-        double rawFactor = (10 - priority) + (arrivalTime / V1) + (remainingTime / V2);
+        double rawFactor = (10 - priority) + Math.ceil(arrivalTime / V1) + Math.ceil(remainingTime / V2);
         FCAIFactor = (int) Math.ceil(rawFactor);
     }
 
