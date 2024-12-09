@@ -105,19 +105,19 @@ public class SRTFSchedulerGUI extends JFrame {
             for (SRTFscheduling.TimelineEntry entry : timeline) {
                 int xStart = padding + (entry.startTime * unitWidth);
                 int width = (entry.endTime - entry.startTime) * unitWidth;
-
+                String name = "grayArea";
                 if (entry.description.equals("Context Switch")) {
                     // Context switch default color
                     g.setColor(Color.GRAY);
                 } else {
                     // Set color based on process ID
-                    switch (entry.processId) {
-                        case 0 -> g.setColor(Color.YELLOW);
-                        case 1 -> g.setColor(Color.MAGENTA);
-                        case 2 -> g.setColor(Color.PINK);
-                        case 3 -> g.setColor(Color.CYAN);
-                        case 4 -> g.setColor(Color.ORANGE);
-                        default -> g.setColor(Color.LIGHT_GRAY);
+                    for (Process process : processes) {
+                        if (process.processId == entry.processId) {
+                            name = process.processName;
+                            String hexColor = Colors.getHex(process.color);
+                            g.setColor(Color.decode(hexColor));
+                            break;
+                        }
                     }
                 }
 
@@ -127,9 +127,11 @@ public class SRTFSchedulerGUI extends JFrame {
                 g.drawRect(xStart, yPosition, width, barHeight);
 
                 // Draw process ID or description in the middle of the bar
-                g.drawString(entry.description, xStart + (width / 2) - 10, yPosition + (barHeight / 2) + 5);
+                g.drawString(name, xStart + (width / 2) - 10, yPosition + (barHeight / 2) + 5);
             }
+
         }
+
 
         @Override
         public Dimension getPreferredSize() {

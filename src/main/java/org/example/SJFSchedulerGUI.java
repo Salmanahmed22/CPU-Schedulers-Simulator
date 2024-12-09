@@ -45,8 +45,8 @@ public class SJFSchedulerGUI extends JFrame {
                 int height = 40;
                 for (Process process : processes) {
                     String hexColor = Colors.getHex(process.color);
+                    g.setColor(Color.decode(hexColor));
 
-                    g.setColor(Color.decode(hexColor)); // Use the process's color
                     int width = process.burstTime * 10; // Scale burst time for visualization
                     g.fillRect(x, y, width, height);
                     g.setColor(Color.BLACK);
