@@ -18,8 +18,6 @@ public class Main{
         int numberOfProcesses = scanner.nextInt();
         System.out.println("Enter context switching: ");
         int contextSwitching = scanner.nextInt();
-        System.out.println("Enter Round Robin Time Quantum: ");
-        int RRQuantum = scanner.nextInt();
 
         Process [] processes = new Process[numberOfProcesses];
         // Input the process details
@@ -33,13 +31,16 @@ public class Main{
             color.toLowerCase();
             System.out.print("Enter Process Arrival Time: ");
             int arrivalTime = scanner.nextInt();
+            System.out.print("Enter Round Robin Time Quantum: ");
+            int RRQuantum = scanner.nextInt();
+
             System.out.print("Enter Process Burst Time: ");
             int burstTime = scanner.nextInt();
             System.out.print("Enter Process Priority Number: ");
             int priority = scanner.nextInt();
             System.out.print("\n\n");
             // Create a new Process object and add it to the array
-            processes[i] = new Process(processName, color, i, arrivalTime, burstTime, priority);
+            processes[i] = new Process(processName, color, i, arrivalTime, burstTime, priority,RRQuantum);
         }
 
         if (choice == 1) {
@@ -71,7 +72,8 @@ public class Main{
                     scheduler.getAvgTurnaroundTime(processes)
             );
         }else if (choice == 4) {
-            //FCAI
+            FCAIScheduling fcaiScheduling = new FCAIScheduling(processes, contextSwitching);
+            fcaiScheduling.schedule();
         }
     } 
 

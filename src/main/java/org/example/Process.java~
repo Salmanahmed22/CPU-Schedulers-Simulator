@@ -40,10 +40,8 @@ public class Process {
     public Process(int i, int arrivalTime, int burstTime) {
     }
 
-    // Method to calculate the FCAI factor and ceil it
+    // Method to calculate the FCAI factor
     public void calculateFCAIFactor(double V1, double V2) {
-        double rawFactor = (10 - priority) + (arrivalTime / V1) + (remainingTime / V2);
-        FCAIFactor = (int) Math.ceil(rawFactor);
+        FCAIFactor = (10 - priority) + (arrivalTime / V1) + (remainingTime / V2);
     }
-
 }
