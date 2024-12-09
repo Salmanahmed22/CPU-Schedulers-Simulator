@@ -1,16 +1,14 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Arrays;
+import java.util.*;
 
 public class FCAIScheduling {
-    private  Process[] processes;
+    private Process[] processes;
     private final int contextSwitching;
     private final double V1;
     private final double V2;
+
+    Vector<Process> processesData = new Vector<>();
 
     public FCAIScheduling(Process[] processes, int contextSwitching) {
         this.processes = processes;
@@ -30,6 +28,10 @@ public class FCAIScheduling {
         for (Process process : processes) {
             process.calculateFCAIFactor(V1, V2);
         }
+
+        for (Process process : processes) {
+            processesData.add(process);
+        }
     }
 
     public void schedule() {
@@ -39,6 +41,12 @@ public class FCAIScheduling {
         Comparator<Process> comparator = (p1, p2) -> Integer.compare(p1.FCAIFactor, p2.FCAIFactor);
         // Priority queue to hold Process objects
         PriorityQueue<Process> processPQ = new PriorityQueue<>(comparator);
+
+        // Track waiting time and turnaround time
+        int[] waitingTime = new int[processes.length];
+        int[] turnaroundTime = new int[processes.length];
+
+
         // Detailed Timeline Header
         System.out.println("Detailed Execution Timeline:");
         System.out.println("Time\t\tProcess\t\t\t\tRemaining Burst Time\t\t\t\tUpdated Quantum\t\tPriority\t\tFCAI Factor");
@@ -63,8 +71,6 @@ public class FCAIScheduling {
             processes = Arrays.copyOf(newProcesses, index);
 
 
-
-
             if (readyQueue.isEmpty()) {
                 // If all processes are completed, break
                 boolean allCompleted = true;
@@ -83,7 +89,6 @@ public class FCAIScheduling {
 //            readyQueue.sort(Comparator.comparingDouble((Process p) -> p.FCAIFactor).reversed());
 
 
-
             Process currentProcess = readyQueue.get(0);
             int tempQuantum = currentProcess.quantum;
             readyQueue.remove(0);
@@ -93,11 +98,25 @@ public class FCAIScheduling {
             if (executionTime > (currentProcess.quantum * 0.4)) {
                 executionTime = (int) Math.ceil(currentProcess.quantum * 0.4); // Allow preemption after 40%
             }
+
+            // Update waiting time for all other processes in the queue
+            for (Process process : readyQueue) {
+                waitingTime[process.processId] += executionTime;
+            }
+
             // Update the process state
             currentProcess.remainingTime -= executionTime;
+
+            //turnaround
+            if (currentProcess.remainingTime == 0) {
+                turnaroundTime[currentProcess.processId] = currentTime - currentProcess.arrivalTime;
+            }
+
             int remQuantum = currentProcess.quantum - executionTime;
             int startTime = currentTime;
             currentTime += executionTime;
+
+
 
 
             Process[] newProcesses3 = new Process[processes.length];
@@ -118,10 +137,15 @@ public class FCAIScheduling {
             processes = Arrays.copyOf(newProcesses3, index3);
 
 //          if it still the lowest FCAI factor continue to execute it till the Quantum is over or till the next FCAI factor is smaller
-            if(processPQ.peek().FCAIFactor == currentProcess.FCAIFactor){
-                while(remQuantum > 0 && currentProcess.remainingTime > 0){
+            if (processPQ.peek().FCAIFactor == currentProcess.FCAIFactor) {
+                while (remQuantum > 0 && currentProcess.remainingTime > 0) {
                     Process[] newProcesses2 = new Process[processes.length];
                     int index2 = 0; // Keeps track of the position in the new array
+
+                    //track waitingtime
+                    for (Process process : readyQueue) {
+                        waitingTime[process.processId]++;
+                    }
 
                     for (Process process : processes) {
                         if (process.arrivalTime <= currentTime && process.remainingTime > 0 && !readyQueue.contains(process)) {
@@ -139,23 +163,21 @@ public class FCAIScheduling {
 
                     assert processPQ.peek() != null;
 
-                    if(processPQ.peek().FCAIFactor == currentProcess.FCAIFactor) {
+                    if (processPQ.peek().FCAIFactor == currentProcess.FCAIFactor) {
                         currentTime++;
                         currentProcess.remainingTime--;
                         remQuantum--;
                         executionTime++;
-                    }
-                    else{
+                    } else {
                         break;
                     }
                 }
-            }
-            else{
+            } else {
                 ArrayList<Process> tempQueue = new ArrayList<>();
                 Process newProcess = processPQ.peek();
                 tempQueue.add(newProcess);
                 for (int i = 0; i < readyQueue.size(); i++) {
-                    if(readyQueue.get(i) == newProcess){
+                    if (readyQueue.get(i) == newProcess) {
                         continue;
                     }
                     tempQueue.add(readyQueue.get(i));
@@ -167,14 +189,13 @@ public class FCAIScheduling {
                 currentProcess.quantum += 2; // Increase quantum for future executions
 
             } else {
-                currentProcess.quantum += remQuantum ;
+                currentProcess.quantum += remQuantum;
             }
             int tempFcaiFactor = currentProcess.FCAIFactor;
-            if(currentProcess.remainingTime > 0){
+            if (currentProcess.remainingTime > 0) {
                 currentProcess.calculateFCAIFactor(V1, V2);
                 readyQueue.add(currentProcess);
-            }
-            else {
+            } else {
                 processPQ.remove(currentProcess);
                 currentProcess.remainingTime = 0;
             }
@@ -187,27 +208,34 @@ public class FCAIScheduling {
                     tempQuantum + " → " + currentProcess.quantum,            // Simulate quantum change
                     currentProcess.priority,
                     tempFcaiFactor + " → " +// Priority
-                    currentProcess.FCAIFactor);                  // FCAI Factor
-
+                            currentProcess.FCAIFactor);                  // FCAI Factor
             // Check if all processes are completed
         }
-
-        // Print the final results after all processes are completed
-//        printResults();
+        // Print waiting time and turnaround time
+        printStatistics(waitingTime, turnaroundTime);
     }
+    private void printStatistics(int[] waitingTime, int[] turnaroundTime) {
+        int totalWaitingTime = 0;
+        int totalTurnaroundTime = 0;
 
-    private void printResults() {
-        System.out.println("\nFCAI Scheduling Results:");
-        System.out.println("Process\tArrival\tBurst\tPriority\tCompletion\tTurnAround\tWaiting");
-        for (Process process : processes) {
-            process.turnAroundTime = process.completionTime - process.arrivalTime;
-            process.waitingTime = process.turnAroundTime - process.burstTime;
+        System.out.printf("\n---------------------------------------------\n");
 
-            System.out.println(process.processName + "\t" + process.arrivalTime + "\t" + process.burstTime + "\t" +
-                    process.priority + "\t\t" + process.completionTime + "\t\t" +
-                    process.turnAroundTime + "\t\t" + process.waitingTime);
+        System.out.println("\nProcess\t\tWaiting Time\tTurnaround Time");
+        for (Process process : processesData) {
+            totalWaitingTime += waitingTime[process.processId];
+            totalTurnaroundTime += turnaroundTime[process.processId];
+            System.out.printf("%-10s\t%-15d\t%-15d\n",
+                    process.processName, waitingTime[process.processId], turnaroundTime[process.processId]);
         }
+
+        System.out.printf("\n---------------------------------------------\n");
+
+        double avgWaitingTime = (double) totalWaitingTime / processesData.size();
+        double avgTurnaroundTime = (double) totalTurnaroundTime / processesData.size();
+
+        System.out.printf("\nAverage Waiting Time: %.2f\n", avgWaitingTime);
+        System.out.printf("Average Turnaround Time: %.2f\n", avgTurnaroundTime);
     }
-
-
 }
+
+
