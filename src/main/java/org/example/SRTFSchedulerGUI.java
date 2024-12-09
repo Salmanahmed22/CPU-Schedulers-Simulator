@@ -22,16 +22,16 @@ public class SRTFSchedulerGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Top Panel for Graph
+        // Graph
         JPanel graphPanel = new GraphPanel();
         graphPanel.setBackground(Color.WHITE);
         add(graphPanel, BorderLayout.CENTER);
 
-        // Right Panel for Process Info
+        // Process Info
         JPanel processInfoPanel = createProcessInfoPanel();
         add(processInfoPanel, BorderLayout.EAST);
 
-        // Bottom Panel for Statistics
+        // Statistics
         JPanel statsPanel = createStatsPanel();
         add(statsPanel, BorderLayout.SOUTH);
 
@@ -42,7 +42,7 @@ public class SRTFSchedulerGUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(200, 0));
 
-        String[] columns = {"PROCESS", "COLOR", "NAME", "PRIORITY"};
+        String[] columns = {"Process", "Color", "Name", "Priority"};
         DefaultTableModel model = new DefaultTableModel(columns, 0);
 
         for (Process p : processes) {
@@ -62,9 +62,9 @@ public class SRTFSchedulerGUI extends JFrame {
 
         JLabel scheduleNameLabel = new JLabel("Schedule Name: SRTF");
         scheduleNameLabel.setForeground(Color.WHITE);
-        JLabel avgWaitTimeLabel = new JLabel("AWT: " + avgWaitTime);
+        JLabel avgWaitTimeLabel = new JLabel("Avgwaitingtime: " + avgWaitTime);
         avgWaitTimeLabel.setForeground(Color.WHITE);
-        JLabel avgTurnaroundTimeLabel = new JLabel("ATAT: " + avgTurnaroundTime);
+        JLabel avgTurnaroundTimeLabel = new JLabel("Avgturnaround: " + avgTurnaroundTime);
         avgTurnaroundTimeLabel.setForeground(Color.WHITE);
 
         panel.add(scheduleNameLabel);
@@ -79,38 +79,37 @@ public class SRTFSchedulerGUI extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            // Padding and scaling variables
+            // Padding
             int padding = 50;
-            int yPosition = padding; // Start Y position for bars
-            int barHeight = 40; // Bar height for process visualization
-            int scalingFactor = 20; // Scaling factor for timeline visualization
+            int yPosition = padding;
+            int barHeight = 40;
+            int scalingFactor = 20;
 
-            // Calculate the total width and scale the timeline
+           //total width and scale the timeline
             int totalWidth = getWidth() - (2 * padding);
             int maxTime = timeline.stream().mapToInt(entry -> entry.endTime).max().orElse(0);
             int unitWidth = totalWidth / (maxTime + 1);
 
-            // Draw timeline axis
+            // timeline axis
             g.setColor(Color.BLACK);
             g.drawLine(padding, yPosition + barHeight + 20, padding + totalWidth, yPosition + barHeight + 20);
 
-            // Draw time markers
+            //time markers
             for (int i = 0; i <= maxTime; i++) {
                 int x = padding + (i * unitWidth);
                 g.drawLine(x, yPosition + barHeight + 15, x, yPosition + barHeight + 25);
                 g.drawString(Integer.toString(i), x - 5, yPosition + barHeight + 40);
             }
 
-            // Draw process execution bars and context switches
+            // Draw process execution bars and context switches if found
             for (SRTFscheduling.TimelineEntry entry : timeline) {
                 int xStart = padding + (entry.startTime * unitWidth);
                 int width = (entry.endTime - entry.startTime) * unitWidth;
                 String name = "Context Switching";
                 if (entry.description.equals("Context Switch")) {
-                    // Context switch default color
                     g.setColor(Color.GRAY);
                 } else {
-                    // Set color based on process ID
+                    // set color based on process ID
                     for (Process process : processes) {
                         if (process.processId == entry.processId) {
                             name = process.processName;
@@ -121,12 +120,12 @@ public class SRTFSchedulerGUI extends JFrame {
                     }
                 }
 
-                // Draw the bar
+                // draw bar
                 g.fillRect(xStart, yPosition, width, barHeight);
                 g.setColor(Color.BLACK);
                 g.drawRect(xStart, yPosition, width, barHeight);
 
-                // Draw process ID or description in the middle of the bar
+                // draw process ID or description in the middle of the bar
                 g.drawString(name, xStart + (width / 2) - 10, yPosition + (barHeight / 2) + 5);
             }
 

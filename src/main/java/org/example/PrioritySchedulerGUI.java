@@ -77,13 +77,13 @@ public class PrioritySchedulerGUI extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            // Padding and scaling variables
+            // Padding
             int padding = 50;
             int yPosition = padding;
             int barHeight = 40;
             int contextBarHeight = 20;
             int totalWidth = getWidth() - (2 * padding);
-            int maxTime = getMaxCompletionTime();  // Adjusted to get the max completion time from processes
+            int maxTime = getMaxCompletionTime();  // adjusted to get the max completion time from processes
             int unitWidth = totalWidth / (maxTime + 1);
 
             // Draw timeline axis
@@ -97,36 +97,36 @@ public class PrioritySchedulerGUI extends JFrame {
                 g.drawString(Integer.toString(i), x - 5, yPosition + barHeight + 40);
             }
 
-            // Draw process execution bars and context switches if applicable
+
             int xStart = padding;
             for (Process process : processes) {
                 int width = process.burstTime * unitWidth;
 
-                // Draw the process bar
+                //process bar
                 g.setColor(Color.decode(Colors.getHex(process.color)));
                 g.fillRect(xStart, yPosition, width, barHeight);
                 g.setColor(Color.BLACK);
                 g.drawRect(xStart, yPosition, width, barHeight);
 
-                // Draw process name
+                // process name
                 g.drawString(process.processName, xStart + (width / 2) - 10, yPosition + (barHeight / 2) + 5);
 
                 // If context switching is needed, draw the context switch bar
                 if (contextSwitching > 0) {
                     int contextWidth = contextSwitching * unitWidth;
-                    xStart += width;  // Move xStart to the end of the process
-                    g.setColor(Color.GRAY);  // Set color for context switch
-                    g.fillRect(xStart, yPosition + barHeight, contextWidth, contextBarHeight);  // Draw context switch bar
+                    xStart += width;  //Move xStart to the end of the process
+                    g.setColor(Color.GRAY);
+                    g.fillRect(xStart, yPosition + barHeight, contextWidth, contextBarHeight);  //draw bar
 
-                    // Draw the "ContextSwitch" string centered within the context switch bar
+
                     String contextSwitchText = "ContextSwitch";
                     FontMetrics fm = g.getFontMetrics();
-                    int textWidth = fm.stringWidth(contextSwitchText);  // Get the width of the string
-                    int textX = xStart + (contextWidth - textWidth) / 2;  // Center the text horizontally
-                    int textY = yPosition + barHeight + (contextBarHeight / 2) + fm.getAscent() / 2;  // Center the text vertically
-                    g.setColor(Color.BLACK);  // Set color for the text
-                    g.drawString(contextSwitchText, textX, textY);  // Draw the text
-                    xStart += contextWidth;  // Move xStart past the context switch bar
+                    int textWidth = fm.stringWidth(contextSwitchText);  // the size of string
+                    int textX = xStart + (contextWidth - textWidth) / 2;  // the horizontal line
+                    int textY = yPosition + barHeight + (contextBarHeight / 2) + fm.getAscent() / 2;  // center the text vertically
+                    g.setColor(Color.BLACK);
+                    g.drawString(contextSwitchText, textX, textY);
+                    xStart += contextWidth;
                 } else {
                     // If no context switch, just move to the next process
                     xStart += width;
@@ -135,7 +135,7 @@ public class PrioritySchedulerGUI extends JFrame {
             }
         }
 
-        // Calculate max completion time (used for timeline width)
+        // timeline width
         private int getMaxCompletionTime() {
             int maxTime = 0;
             for (Process process : processes) {
