@@ -41,7 +41,7 @@ public class FCAIScheduling {
         PriorityQueue<Process> processPQ = new PriorityQueue<>(comparator);
         // Detailed Timeline Header
         System.out.println("Detailed Execution Timeline:");
-        System.out.println("Time\t\tProcess\t\t\t\tRemaining Burst Time\t\t\t\tUpdated Quantum\t\tPriority\t\tFCAI Factor");
+        System.out.println("Time\t\tProcess\t\t\t\tRemaining Burst Time\t\t\t\tUpdated Quantum\t\t\tPriority\t\tFCAI Factor");
 
         while (true) {
             // Add processes to the ready queue based on arrival time
@@ -208,6 +208,4 @@ public class FCAIScheduling {
                     process.turnAroundTime + "\t\t" + process.waitingTime);
         }
     }
-
-
 }
