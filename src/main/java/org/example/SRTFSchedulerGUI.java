@@ -105,7 +105,7 @@ public class SRTFSchedulerGUI extends JFrame {
             for (SRTFscheduling.TimelineEntry entry : timeline) {
                 int xStart = padding + (entry.startTime * unitWidth);
                 int width = (entry.endTime - entry.startTime) * unitWidth;
-                String name = "grayArea";
+                String name = "Context Switching";
                 if (entry.description.equals("Context Switch")) {
                     // Context switch default color
                     g.setColor(Color.GRAY);
