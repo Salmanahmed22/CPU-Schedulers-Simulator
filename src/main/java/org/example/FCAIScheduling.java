@@ -1,16 +1,14 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Arrays;
+import java.util.*;
 
 public class FCAIScheduling {
     private  Process[] processes;
     private final int contextSwitching;
     private final double V1;
     private final double V2;
+    private final List<TimelineEntry> timeline = new ArrayList<>();
+
 
     public FCAIScheduling(Process[] processes, int contextSwitching) {
         this.processes = processes;
@@ -179,6 +177,7 @@ public class FCAIScheduling {
                 currentProcess.remainingTime = 0;
             }
 
+
             // Print detailed information for the current time slice
             System.out.printf("%-15s%-25s%-30d%-20s%-15d%-15s\n",
                     startTime + "-" + (startTime + executionTime), // Current time range
@@ -209,3 +208,4 @@ public class FCAIScheduling {
         }
     }
 }
+
