@@ -65,11 +65,9 @@
     &quot;Application.SRTFscheduling.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-=======
+
     &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
->>>>>>> 6057943d600f920f526d28822bb0b75f85e128f1
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/studying/operating system/CPU-Schedulers-Simulator&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
