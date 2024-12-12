@@ -39,20 +39,20 @@ public class SJFSchedulerGUI extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // Draw the CPU scheduling chart
-                int x = 50; // Starting position
+                // draw the CPU scheduling chart
+                int x = 50; // starting position
                 int y = 50;
                 int height = 40;
                 for (Process process : processes) {
                     String hexColor = Colors.getHex(process.color);
                     g.setColor(Color.decode(hexColor));
 
-                    int width = process.burstTime * 10; // Scale burst time for visualization
+                    int width = process.burstTime * 10; // scale burst time for visualization
                     g.fillRect(x, y, width, height);
                     g.setColor(Color.BLACK);
                     g.drawRect(x, y, width, height);
                     g.drawString(process.processName, x + width / 2 - 10, y + 25);
-                    x += width + 10; // Move to the next process position
+                    x += width + 10; // move to the next process position
                 }
             }
         };
@@ -89,24 +89,4 @@ public class SJFSchedulerGUI extends JFrame {
         return statsPanel;
     }
 
-    public static void main(String[] args) {
-        // Mock data for testing
-        Process[] mockProcesses = {
-                new Process("P1", "red", 1, 0, 3, 1),
-                new Process("P2", "green", 2, 1, 5, 2),
-                new Process("P3", "blue", 3, 2, 2, 3),
-                new Process("P4", "magenta", 4, 3, 1, 4),
-        };
-        SJFscheduling sjfscheduling = new SJFscheduling(mockProcesses);
-        sjfscheduling.sortProcesses();
-        sjfscheduling.calcWaitingTime();
-        sjfscheduling.calcTurnArroundTime();
-
-        // Launch the GUI
-        new SJFSchedulerGUI(
-                sjfscheduling.getProcessList(),
-                sjfscheduling.getAvgWaitTime(),
-                sjfscheduling.getAvgTurnAroundTime()
-        );
-    }
 }
