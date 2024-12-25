@@ -6,141 +6,72 @@ import java.util.List;
 
 public class SJFscheduling {
 
-    private List<Process> processList;
-    private int avgWaitTime;
-    private int avgTurnAroundTime;
-    private final int AGING_THRESHOLD = 5;
+    private List<Process> processList, tempProcessList;
+    private double avgWaitingTime;
+    private double avgTurnaroundTime;
+    private static final int AGING_FACTOR = 1; // Increment to simulate aging
 
-    public SJFscheduling(Process[] process) {
-        this.processList = new ArrayList<>();
-        for (Process p : process) {
-            processList.add(p);
-        }
+    public SJFscheduling(List<Process> processList) {
+        this.processList = processList;
+        this.tempProcessList = new ArrayList<>();
     }
 
-    public List<Process> getProcessList() {
-        return processList;
-    }
+    public void schedule() {
+        int currentTime = 0;
+        int totalWaitingTime = 0;
+        int totalTurnAroundTime = 0;
 
-    public int getAvgWaitTime() {
-        return avgWaitTime;
-    }
+        while (!processList.isEmpty()) {
+            // Sort processes by arrival time first, then by adjusted burst time
+            processList.sort(Comparator.comparingInt((Process p) -> p.arrivalTime)
+                    .thenComparingInt(p -> p.burstTime - p.waitingTime * AGING_FACTOR));
 
-    public int getAvgTurnAroundTime() {
-        return avgTurnAroundTime;
-    }
+            Process process = processList.get(0);
 
-    public void applyAging() {
-        for (Process process : processList) {
-            if (process.waitingTime > AGING_THRESHOLD) {
-                process.priority -= 1; // Decrease priority value (less the number higher the priority)
-                if (process.priority < 1) {
-                    process.priority = 1;
+            if (currentTime < process.arrivalTime) {
+                currentTime = process.arrivalTime;
+            }
+
+            process.waitingTime = currentTime - process.arrivalTime;
+            process.completionTime = currentTime + process.burstTime;
+            process.turnAroundTime = process.completionTime - process.arrivalTime;
+
+            totalWaitingTime += process.waitingTime;
+            totalTurnAroundTime += process.turnAroundTime;
+
+            currentTime += process.burstTime;
+
+            System.out.println("Process: " + process.processName +
+                    ", Waiting Time: " + process.waitingTime +
+                    ", Turnaround Time: " + process.turnAroundTime);
+
+            // Remove the process from the list as it is completed
+            tempProcessList.add(process);
+            processList.remove(0);
+
+            // Increment waiting time for all remaining processes to simulate aging
+            for (Process p : processList) {
+                if (p.arrivalTime <= currentTime) {
+                    p.waitingTime += AGING_FACTOR;
                 }
             }
         }
-    }
-    //edge solution for starvation
-    //compare process priority first then burst time
-    public void sortProcessesWithAging() {
-        processList.sort(Comparator
-                .comparingInt((Process p) -> p.priority)
-                .thenComparingInt(p -> p.burstTime));
+
+        avgWaitingTime = (double) totalWaitingTime / tempProcessList.size();
+        avgTurnaroundTime = (double) totalTurnAroundTime / tempProcessList.size();
+        System.out.println("Average Waiting Time: " + avgWaitingTime);
+        System.out.println("Average Turnaround Time: " + avgTurnaroundTime);
     }
 
-    public void calcWaitingTime() {
-        int currentTime = 0;
-
-        // Sort processes by arrival time first
-        processList.sort(Comparator.comparingInt(process -> process.arrivalTime));
-
-        // calc waiting time
-        for (int i = 0; i < processList.size(); i++) {
-
-            // If the process arrives after the current time, the CPU idles until its arrival
-            if (processList.get(i).arrivalTime > currentTime) {
-                currentTime = processList.get(i).arrivalTime;
-                processList.get(i).waitingTime = 0;
-            }
-            else
-                processList.get(i).waitingTime = currentTime - processList.get(i).arrivalTime;
-
-            currentTime += processList.get(i).burstTime;
-        }
-
-        // Calculate average waiting time after all processes
-        calcAvgWaitTime();
+    public List<Process> getProcessList() {
+        return tempProcessList;
     }
 
-    public void calcAvgWaitTime() {
-        int totalWaitTime = 0;
-        for (Process process : processList) {
-            totalWaitTime += process.waitingTime;
-        }
-        avgWaitTime = totalWaitTime / processList.size();
+    public double getAvgWaitingTime() {
+        return avgWaitingTime;
     }
 
-    public void calcTurnArroundTime() {
-        for (Process process : processList) {
-            process.turnAroundTime = process.waitingTime + process.burstTime;
-        }
-        calcAvgTurnArroundTime();
-    }
-
-    public void calcAvgTurnArroundTime() {
-        int totalTurnAroundTime = 0;
-        for (Process process : processList) {
-            totalTurnAroundTime += process.turnAroundTime;
-        }
-        avgTurnAroundTime = totalTurnAroundTime / processList.size();
-    }
-
-    public void sortProcesses() {
-        processList.sort(Comparator.comparingInt(process -> process.burstTime));
-    }
-
-    public void executeWithAging() {
-        int time = 0;
-        while (!processList.isEmpty()) {
-            // Apply aging before sorting
-            applyAging();
-            sortProcessesWithAging();
-
-            // Execute the next process
-            Process current = processList.remove(0);
-            if (time > 0)
-                current.waitingTime = time - current.arrivalTime;
-
-            current.turnAroundTime = current.waitingTime + current.burstTime;
-            time += current.burstTime;
-
-            for(Process process : processList){
-                process.waitingTime = time - process.arrivalTime;
-            }
-
-            // Print execution details
-            System.out.println("Executed process: " + current.processName + " | Waiting Time: " + current.waitingTime +
-                    " | Turnaround Time: " + current.turnAroundTime);
-        }
-    }
-
-    public void displayProcesses() {
-        System.out.println("\n=== SJF Scheduling with Aging Results ===");
-        System.out.println("-------------------------------------------------------------");
-        System.out.printf("%-15s %-15s %-20s %-20s\n", "Process", "Priority", "Waiting Time", "Turnaround Time");
-        System.out.println("-------------------------------------------------------------");
-
-        for (Process process : processList) {
-            System.out.printf("%-15s %-15d %-20d %-20d\n",
-                    process.processName,
-                    process.priority,
-                    process.waitingTime,
-                    process.turnAroundTime);
-        }
-
-        System.out.println("-------------------------------------------------------------");
-        System.out.printf("%-30s: %d\n", "Average Waiting Time", avgWaitTime);
-        System.out.printf("%-30s: %d\n", "Average Turnaround Time", avgTurnAroundTime);
-        System.out.println("=============================================================\n");
+    public double getAvgTurnaroundTime() {
+        return avgTurnaroundTime;
     }
 }

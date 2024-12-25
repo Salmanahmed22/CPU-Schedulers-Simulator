@@ -1,4 +1,5 @@
 package org.example;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,19 +55,18 @@ public class Main{
                     ,contextSwitching
             );
         } else if (choice == 2) {
-            SJFscheduling sjfscheduling = new SJFscheduling(processes);
+            List<Process> processList = new ArrayList<>();
+            for (Process process : processes) {
+                processList.add(process);
+            }
 
-
-
-            sjfscheduling.sortProcesses(); // Regular SJF sorting by burst time
-            sjfscheduling.calcWaitingTime();
-            sjfscheduling.calcTurnArroundTime();
-            sjfscheduling.displayProcesses(); // Display without aging
+            SJFscheduling sjfscheduling = new SJFscheduling(processList);
+            sjfscheduling.schedule();
 
             new SJFSchedulerGUI(
                     sjfscheduling.getProcessList(),
-                    sjfscheduling.getAvgWaitTime(),
-                    sjfscheduling.getAvgTurnAroundTime()
+                    sjfscheduling.getAvgWaitingTime(),
+                    sjfscheduling.getAvgTurnaroundTime()
             );
         }else if (choice == 3) {
             SRTFscheduling scheduler = new SRTFscheduling();

@@ -7,10 +7,10 @@ import java.util.List;
 public class SJFSchedulerGUI extends JFrame {
 
     private List<Process> processes;
-    private int avgWaitTime;
-    private int avgTurnAroundTime;
+    private double avgWaitTime;
+    private double avgTurnAroundTime;
 
-    public SJFSchedulerGUI(List<Process> processes, int avgWaitTime, int avgTurnAroundTime) {
+    public SJFSchedulerGUI(List<Process> processes, double avgWaitTime, double avgTurnAroundTime) {
         this.processes = processes;
         this.avgWaitTime = avgWaitTime;
         this.avgTurnAroundTime = avgTurnAroundTime;
