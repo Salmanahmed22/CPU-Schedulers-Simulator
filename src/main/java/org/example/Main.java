@@ -56,18 +56,12 @@ public class Main{
         } else if (choice == 2) {
             SJFscheduling sjfscheduling = new SJFscheduling(processes);
 
-            // Add the aging-based execution logic
-            System.out.println("Do you want to enable aging to prevent starvation? (yes/no): ");
-            String agingChoice = scanner.next().toLowerCase();
 
-            if (agingChoice.equals("yes")) {
-                sjfscheduling.executeWithAging(); // Use the aging-aware scheduling
-            } else {
-                sjfscheduling.sortProcesses(); // Regular SJF sorting by burst time
-                sjfscheduling.calcWaitingTime();
-                sjfscheduling.calcTurnArroundTime();
-                sjfscheduling.displayProcesses(); // Display without aging
-            }
+
+            sjfscheduling.sortProcesses(); // Regular SJF sorting by burst time
+            sjfscheduling.calcWaitingTime();
+            sjfscheduling.calcTurnArroundTime();
+            sjfscheduling.displayProcesses(); // Display without aging
 
             new SJFSchedulerGUI(
                     sjfscheduling.getProcessList(),

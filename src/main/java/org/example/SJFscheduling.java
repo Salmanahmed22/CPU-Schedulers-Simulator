@@ -9,8 +9,7 @@ public class SJFscheduling {
     private List<Process> processList;
     private int avgWaitTime;
     private int avgTurnAroundTime;
-    private final int AGING_THRESHOLD = 5; // Example threshold for aging in time units
-    private final int PRIORITY_INCREMENT = 1; // Increment priority by 1 when aging applies
+    private final int AGING_THRESHOLD = 5;
 
     public SJFscheduling(Process[] process) {
         this.processList = new ArrayList<>();
@@ -31,16 +30,12 @@ public class SJFscheduling {
         return avgTurnAroundTime;
     }
 
-    public void addProcess(Process process) {
-        processList.add(process);
-    }
-
     public void applyAging() {
         for (Process process : processList) {
             if (process.waitingTime > AGING_THRESHOLD) {
-                process.priority -= PRIORITY_INCREMENT; // Decrease priority value (less the number higher the priority)
+                process.priority -= 1; // Decrease priority value (less the number higher the priority)
                 if (process.priority < 1) {
-                    process.priority = 1; // Minimum priority value to prevent excessive adjustments
+                    process.priority = 1;
                 }
             }
         }
@@ -76,7 +71,6 @@ public class SJFscheduling {
         // Calculate average waiting time after all processes
         calcAvgWaitTime();
     }
-
 
     public void calcAvgWaitTime() {
         int totalWaitTime = 0;
@@ -114,9 +108,15 @@ public class SJFscheduling {
 
             // Execute the next process
             Process current = processList.remove(0);
-            current.waitingTime = time - current.arrivalTime;
+            if (time > 0)
+                current.waitingTime = time - current.arrivalTime;
+
             current.turnAroundTime = current.waitingTime + current.burstTime;
             time += current.burstTime;
+
+            for(Process process : processList){
+                process.waitingTime = time - process.arrivalTime;
+            }
 
             // Print execution details
             System.out.println("Executed process: " + current.processName + " | Waiting Time: " + current.waitingTime +
