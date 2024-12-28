@@ -107,14 +107,14 @@ public class FCAIScheduling {
             // Update the process state
             currentProcess.remainingTime -= executionTime;
 
+            int startTime = currentTime;
+            currentTime += executionTime;
             //turnaround
             if (currentProcess.remainingTime == 0) {
                 turnaroundTime[currentProcess.processId] = currentTime - currentProcess.arrivalTime;
             }
 
             int remQuantum = currentProcess.quantum - executionTime;
-            int startTime = currentTime;
-            currentTime += executionTime;
 
 
 
