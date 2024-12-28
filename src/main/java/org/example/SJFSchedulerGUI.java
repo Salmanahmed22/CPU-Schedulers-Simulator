@@ -17,7 +17,7 @@ public class SJFSchedulerGUI extends JFrame {
 
         // Set up the frame
         setTitle("SJF Scheduler GUI");
-        setSize(500, 400);
+        setSize(800, 400); // Increased width for better visualization
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -39,24 +39,72 @@ public class SJFSchedulerGUI extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // draw the CPU scheduling chart
-                int x = 50; // starting position
-                int y = 50;
+                // Draw the CPU scheduling chart
+                int x = 50;
+                int y = 100;
                 int height = 40;
+                int timeScale = 10; // Scale burst time for visualization
+
+                // Font settings for time labels
+                FontMetrics fm = g.getFontMetrics();
+                g.setFont(new Font("Arial", Font.PLAIN, 12));
+
+                // Track the cumulative time to ensure processes stick together
+                int cumulativeTime = 0;
+
                 for (Process process : processes) {
                     String hexColor = Colors.getHex(process.color);
                     g.setColor(Color.decode(hexColor));
 
-                    int width = process.burstTime * 10; // scale burst time for visualization
-                    g.fillRect(x, y, width, height);
+                    int width = process.burstTime * timeScale; // Scale burst time
+
+                    // Use cumulative time for x-coordinate
+                    g.fillRect(x + cumulativeTime, y, width, height);
                     g.setColor(Color.BLACK);
-                    g.drawRect(x, y, width, height);
-                    g.drawString(process.processName, x + width / 2 - 10, y + 25);
-                    x += width + 10; // move to the next process position
+                    g.drawRect(x + cumulativeTime, y, width, height);
+
+                    // Draw process name inside the rectangle
+                    String processName = process.processName;
+                    int nameWidth = fm.stringWidth(processName);
+                    g.drawString(processName,
+                            x + cumulativeTime + (width - nameWidth) / 2,
+                            y + height / 2 + fm.getAscent() / 2 - 2);
+
+                    // Update cumulative time
+                    cumulativeTime += width;
                 }
+
+                // Draw the timeline
+                g.setColor(Color.BLACK);
+                int timelineY = y + height + 20;
+                g.drawLine(40, timelineY, x + cumulativeTime, timelineY); // Horizontal line
+
+                // Draw time markers
+                cumulativeTime = 0;
+                for (Process process : processes) {
+                    int markerX = x + cumulativeTime;
+
+                    // Draw time marker
+                    g.drawLine(markerX, timelineY - 5, markerX, timelineY + 5);
+
+                    // Draw time label
+                    String timeStr = String.valueOf(cumulativeTime);
+                    int timeStrWidth = fm.stringWidth(timeStr);
+                    g.drawString(timeStr, markerX - timeStrWidth / 2, timelineY + 20);
+
+                    // Update cumulative time
+                    cumulativeTime += process.burstTime * timeScale;
+                }
+
+                // Draw final time marker
+                g.drawLine(x + cumulativeTime, timelineY - 5, x + cumulativeTime, timelineY + 5);
+                String finalTimeStr = String.valueOf(cumulativeTime / timeScale);
+                int finalTimeStrWidth = fm.stringWidth(finalTimeStr);
+                g.drawString(finalTimeStr, x + cumulativeTime - finalTimeStrWidth / 2, timelineY + 20);
             }
         };
-        chartPanel.setPreferredSize(new Dimension(600, 200));
+        chartPanel.setPreferredSize(new Dimension(700, 250)); // Increased height to accommodate time labels
+        chartPanel.setBackground(Color.WHITE);
         return chartPanel;
     }
 
@@ -77,15 +125,16 @@ public class SJFSchedulerGUI extends JFrame {
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
         infoPanel.add(scrollPane, BorderLayout.CENTER);
-        infoPanel.setPreferredSize(new Dimension(200, 200));
+        infoPanel.setPreferredSize(new Dimension(300, 200));
         return infoPanel;
     }
 
     private JPanel createStatisticsPanel() {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new GridLayout(2, 1));
-        statsPanel.add(new JLabel("Average Waiting Time: " + avgWaitTime));
-        statsPanel.add(new JLabel("Average Turnaround Time: " + avgTurnAroundTime));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        statsPanel.add(new JLabel("Average Waiting Time: " + String.format("%.2f", avgWaitTime)));
+        statsPanel.add(new JLabel("Average Turnaround Time: " + String.format("%.2f", avgTurnAroundTime)));
         return statsPanel;
     }
 

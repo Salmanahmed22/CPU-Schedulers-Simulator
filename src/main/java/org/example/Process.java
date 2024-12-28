@@ -13,7 +13,8 @@ public class Process {
     int remainingTime;
     int quantum;
     int FCAIFactor;
-
+    int startTime;
+    int endTime;
     // Constructor for FCAI Scheduling
     Process(String processName, String color, int processId, int arrivalTime, int burstTime, int priority) {
         this.processName = processName;

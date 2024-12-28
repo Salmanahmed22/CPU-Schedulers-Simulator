@@ -32,6 +32,9 @@ public class SJFscheduling {
                 currentTime = process.arrivalTime;
             }
 
+            // Set start time
+            process.startTime = currentTime;
+
             process.waitingTime = currentTime - process.arrivalTime;
             process.completionTime = currentTime + process.burstTime;
             process.turnAroundTime = process.completionTime - process.arrivalTime;
@@ -42,6 +45,8 @@ public class SJFscheduling {
             currentTime += process.burstTime;
 
             System.out.println("Process: " + process.processName +
+                    ", Start Time: " + process.startTime +
+                    ", Completion Time: " + process.completionTime +
                     ", Waiting Time: " + process.waitingTime +
                     ", Turnaround Time: " + process.turnAroundTime);
 
